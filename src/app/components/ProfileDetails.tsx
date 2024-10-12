@@ -22,10 +22,10 @@ import {
   FaPinterest,
   FaDiscord,
   FaGlobe,
-} from "react-icons/fa"; // Example icons for social media
+} from "react-icons/fa";
 import PopupModal from "./PopupModal";
 import EditProfile from "./EditProfile";
-// import Image from "next/image";
+import Loader from "./Loader";
 
 interface ProfileDetailsProps {
   userId?: string;
@@ -34,16 +34,18 @@ interface ProfileDetailsProps {
 const ProfileDetails = ({ userId }: ProfileDetailsProps) => {
   const dispatch = useAppDispatch();
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false); // New state for avatar modal
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
   const { user } = useAppSelector((state) => state.user);
 
   const [renderUser, setRenderUser] = useState<UserResponseData | undefined>(
     undefined
   );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUser = async () => {
+      setIsLoading(true);
       try {
         const { data } = userId
           ? await getUserById(userId)
@@ -52,6 +54,8 @@ const ProfileDetails = ({ userId }: ProfileDetailsProps) => {
         if (!userId) dispatch(setUserInStore(data));
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchUser();
@@ -63,14 +67,22 @@ const ProfileDetails = ({ userId }: ProfileDetailsProps) => {
     }
   };
   const toggleEditProfile = () => {
-    setIsEditMode((prev) => !prev); // Toggle the form visibility
+    setIsEditMode((prev) => !prev);
   };
   const toggleAvatarModal = () => {
-    setIsAvatarModalOpen((prev) => !prev); // Toggle the avatar modal
+    setIsAvatarModalOpen((prev) => !prev);
   };
   useEffect(() => {
     setRenderUser(user);
   }, [user]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 py-10">
@@ -85,12 +97,12 @@ const ProfileDetails = ({ userId }: ProfileDetailsProps) => {
                     src={`${process.env.NEXT_PUBLIC_API_URL}/avatar/${renderUser.profile_picture}`}
                     alt="User Avatar"
                     className="rounded-full w-24 h-24 object-cover cursor-pointer"
-                    onClick={() => !userId && toggleAvatarModal()} // Prevent click if userId is present
+                    onClick={() => !userId && toggleAvatarModal()}
                   />
                 ) : (
                   <div
                     className="rounded-full bg-gray-200 w-24 h-24 flex items-center justify-center text-4xl font-bold text-gray-400 cursor-pointer"
-                    onClick={() => !userId && toggleAvatarModal()} // Prevent click if userId is present
+                    onClick={() => !userId && toggleAvatarModal()}
                   >
                     {renderUser?.name?.charAt(0) || "U"}
                   </div>
@@ -107,7 +119,6 @@ const ProfileDetails = ({ userId }: ProfileDetailsProps) => {
               </div>
             </div>
 
-            {/* Edit Button */}
             {!userId && (
               <div className="text-right">
                 <button
@@ -127,7 +138,6 @@ const ProfileDetails = ({ userId }: ProfileDetailsProps) => {
           >
             <EditProfile onClose={toggleEditProfile} />
           </PopupModal>
-          {/* Avatar Modal */}
           <PopupModal
             isOpen={isAvatarModalOpen}
             onClose={toggleAvatarModal}
@@ -136,7 +146,6 @@ const ProfileDetails = ({ userId }: ProfileDetailsProps) => {
             <AvatarSelector onClose={toggleAvatarModal} />
           </PopupModal>
 
-          {/* Social Media */}
           <div className="flex space-x-4 mt-6">
             {renderUser?.social_media?.facebook && (
               <FaFacebook
@@ -204,7 +213,6 @@ const ProfileDetails = ({ userId }: ProfileDetailsProps) => {
             )}
           </div>
 
-          {/* Stats */}
           <div className="mt-6 grid grid-cols-3 gap-6">
             <div className="bg-gray-50 rounded-lg p-6 shadow-md text-center">
               <h3 className="text-xl font-semibold text-gray-700">Notes</h3>
@@ -296,9 +304,9 @@ const AvatarSelector = ({ onClose }: { onClose: () => void }) => {
             <img
               src={`${process.env.NEXT_PUBLIC_API_URL}/avatar/${avatar}`}
               alt="Avatar"
-              width={64} // Fixed width
-              height={64} // Fixed height
-              className="rounded-full border-4 border-white object-cover w-16 h-16" // Ensure uniform shape
+              width={64}
+              height={64}
+              className="rounded-full border-4 border-white object-cover w-16 h-16"
             />
           </div>
         ))}
