@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* globals.css */
+html,
+body {
+  overflow: hidden; /* Prevent default scrolling */
+  height: 100%; /* Ensure full height for the body */
+}
+
+.scrollable {
+  overflow: auto; /* Enable scrolling for this class */
+  -ms-overflow-style: none; /* Hide scrollbar for Internet Explorer and Edge */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+/* For WebKit browsers like Chrome and Safari */
+.scrollable::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
+
+.loader {
+  border-top-color: #3498db; /* Blue color for loader */
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
