@@ -12,6 +12,7 @@ const initialState: UserState = {
     name: "",
     email: "",
     notes: [],
+    tasks: [],
     profile_picture: "",
     social_media: {
       twitter: "",
