@@ -243,28 +243,89 @@ const ProfileDetails = ({ userId }: ProfileDetailsProps) => {
             )}
           </div>
 
-          <div className="mt-6 grid grid-cols-3 gap-6">
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Notes Card */}
             <div className="bg-gray-50 rounded-lg p-6 shadow-md text-center">
+              <div className="flex items-center justify-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-10 w-10 text-gray-700"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 6h8M8 10h8M8 14h8M8 18h8M4 6h.01M4 10h.01M4 14h.01M4 18h.01M4 4h16v16H4V4z"
+                  />
+                </svg>
+              </div>
               <h3 className="text-xl font-semibold text-gray-700">Notes</h3>
-              <p className="text-gray-600">{renderUser?.notes?.length || 0}</p>
+              <p className="text-gray-600 mt-2">
+                {renderUser?.notes?.length || 0}
+              </p>
             </div>
+
+            {/* Tasks Card */}
             <div className="bg-gray-50 rounded-lg p-6 shadow-md text-center">
+              <div className="flex items-center justify-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-10 w-10 text-gray-700"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12h6m-6 4h6m-6-8h6m2 8h2a2 2 0 002-2V6a2 2 0 00-2-2h-2m-2 0H9a2 2 0 00-2 2v8a2 2 0 002 2h2"
+                  />
+                </svg>
+              </div>
               <h3 className="text-xl font-semibold text-gray-700">Tasks</h3>
-              <p className="text-gray-600">
-                Pending-{countTasksStatus().pending}
+              <p className="text-gray-600 mt-2">
+                Pending:{" "}
+                <span className="font-bold">{countTasksStatus().pending}</span>
               </p>
               <p className="text-gray-600">
-                Progress-{countTasksStatus().progress}
+                Progress:{" "}
+                <span className="font-bold">{countTasksStatus().progress}</span>
               </p>
-              <p className="text-gray-600">Done-{countTasksStatus().done}</p>
+              <p className="text-gray-600">
+                Done:{" "}
+                <span className="font-bold">{countTasksStatus().done}</span>
+              </p>
             </div>
+
+            {/* Groups Card */}
             <div className="bg-gray-50 rounded-lg p-6 shadow-md text-center">
+              <div className="flex items-center justify-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-10 w-10 text-gray-700"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 14c-3.313 0-6-2.686-6-6s2.687-6 6-6 6 2.686 6 6-2.687 6-6 6zm0 0c3.313 0 6 2.686 6 6v1H6v-1c0-3.314 2.687-6 6-6z"
+                  />
+                </svg>
+              </div>
               <h3 className="text-xl font-semibold text-gray-700">Groups</h3>
-              <p className="text-gray-600">0</p>
+              <p className="text-gray-600 mt-2">0</p>
             </div>
           </div>
 
           <div className="mt-8 bg-gray-50 p-6 rounded-lg shadow-md">
+            {/* bg-gray-50 */}
             <h3 className="text-2xl font-semibold text-gray-700 mb-4">
               Additional Information
             </h3>
