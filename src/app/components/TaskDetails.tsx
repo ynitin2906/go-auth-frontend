@@ -5,6 +5,7 @@ interface NoteDetailsProps {
 }
 
 const TaskDetails = ({ userId }: NoteDetailsProps) => {
+  console.log(userId);
   return (
     <div>
       <p className="text-gray-500">No tasks available.</p>
