@@ -1,4 +1,5 @@
 import { Note } from "./notes";
+import { Task } from "./tasks";
 
 export interface CreateUser {
   name: string;
@@ -27,6 +28,7 @@ export interface UserResponseData {
   name: string;
   email: string;
   notes: Note[];
+  tasks: Task[];
   profile_picture: string;
   social_media: SocialMedia;
 }

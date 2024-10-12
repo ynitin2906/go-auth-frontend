@@ -26,6 +26,7 @@ import {
 import PopupModal from "./PopupModal";
 import EditProfile from "./EditProfile";
 import Loader from "./Loader";
+import { Task } from "../types/tasks";
 
 interface ProfileDetailsProps {
   userId?: string;
@@ -76,6 +77,35 @@ const ProfileDetails = ({ userId }: ProfileDetailsProps) => {
     setRenderUser(user);
   }, [user]);
 
+  const countTasksStatus = (): {
+    pending: number;
+    progress: number;
+    done: number;
+  } => {
+    const statusCounts = {
+      pending: 0,
+      progress: 0,
+      done: 0,
+    };
+
+    if (!renderUser || !renderUser.tasks) {
+      return statusCounts;
+    }
+    renderUser.tasks.forEach((task: Task) => {
+      if (task.status_history && task.status_history.length > 0) {
+        const lastStatus = task.status_history[task.status_history.length - 1];
+
+        if (lastStatus.status === "pending") {
+          statusCounts.pending += 1;
+        } else if (lastStatus.status === "progress") {
+          statusCounts.progress += 1;
+        } else if (lastStatus.status === "done") {
+          statusCounts.done += 1;
+        }
+      }
+    });
+    return statusCounts;
+  };
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -219,16 +249,21 @@ const ProfileDetails = ({ userId }: ProfileDetailsProps) => {
               <p className="text-gray-600">{renderUser?.notes?.length || 0}</p>
             </div>
             <div className="bg-gray-50 rounded-lg p-6 shadow-md text-center">
-              <h3 className="text-xl font-semibold text-gray-700">
-                Pending Tasks
-              </h3>
-              <p className="text-gray-600">0</p>
+              <h3 className="text-xl font-semibold text-gray-700">Tasks</h3>
+              <p className="text-gray-600">
+                Pending-{countTasksStatus().pending}
+              </p>
+              <p className="text-gray-600">
+                Progress-{countTasksStatus().progress}
+              </p>
+              <p className="text-gray-600">Done-{countTasksStatus().done}</p>
             </div>
             <div className="bg-gray-50 rounded-lg p-6 shadow-md text-center">
               <h3 className="text-xl font-semibold text-gray-700">Groups</h3>
               <p className="text-gray-600">0</p>
             </div>
           </div>
+
           <div className="mt-8 bg-gray-50 p-6 rounded-lg shadow-md">
             <h3 className="text-2xl font-semibold text-gray-700 mb-4">
               Additional Information
