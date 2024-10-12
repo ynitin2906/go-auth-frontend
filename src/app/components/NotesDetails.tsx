@@ -8,12 +8,13 @@ import {
   getNotesByUserId,
   getUserNotes,
   deleteNote,
-} from "../services/notesService"; // Import the deleteNote function
+} from "../services/notesService";
 import { setNotesInStore } from "../slices/notesSlice";
-import CreateNote from "./CreateNote"; // Import the CreateNote component
+import CreateNote from "./CreateNote";
 import PopupModal from "./PopupModal";
-import EditNote from "./EditNote"; // Import the EditNote component
-import { MdDelete, MdEdit } from "react-icons/md"; // Import the edit icon
+import EditNote from "./EditNote";
+import { MdDelete, MdEdit } from "react-icons/md";
+import Loader from "./Loader";
 
 interface NoteDetailsProps {
   userId?: string;
@@ -22,19 +23,24 @@ interface NoteDetailsProps {
 const NotesDetails = ({ userId }: NoteDetailsProps) => {
   const { notes } = useAppSelector((state) => state.notes);
   const dispatch = useAppDispatch();
-  const [isCreating, setIsCreating] = useState(false); // State to manage the visibility of the CreateNote form
-  const [isEditing, setIsEditing] = useState(false); // State to manage the visibility of the EditNote form
-  const [currentNoteId, setCurrentNoteId] = useState<string | null>(null); // Track the note being edited
+  const [isCreating, setIsCreating] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentNoteId, setCurrentNoteId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        setIsLoading(true);
+
         const { data } = userId
           ? await getNotesByUserId(userId)
           : await getUserNotes();
         dispatch(setNotesInStore(data));
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchUser();
@@ -42,23 +48,29 @@ const NotesDetails = ({ userId }: NoteDetailsProps) => {
   }, [userId]);
 
   const toggleCreateNote = () => {
-    setIsCreating((prev) => !prev); // Toggle the form visibility
+    setIsCreating((prev) => !prev);
   };
 
   const toggleEditNote = (noteId?: string) => {
-    setCurrentNoteId(noteId || null); // Set the current note ID or null if closing
-    setIsEditing((prev) => !prev); // Toggle the edit form visibility
+    setCurrentNoteId(noteId || null);
+    setIsEditing((prev) => !prev);
   };
 
   const handleDeleteNote = async (noteId: string) => {
     try {
-      await deleteNote(noteId); // Call the API to delete the note
-      dispatch(setNotesInStore(notes.filter((note) => note.id !== noteId))); // Update the store after deletion
+      await deleteNote(noteId);
+      dispatch(setNotesInStore(notes.filter((note) => note.id !== noteId)));
     } catch (error) {
       console.error("Failed to delete note:", error);
     }
   };
-
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader />
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col items-center py-8">
       <div

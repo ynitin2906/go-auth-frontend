@@ -1,22 +1,27 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { getAllUsers } from "../services/userService";
 import { setAllUsersInStore } from "../slices/userSlice";
 import Link from "next/link"; // Import Link for navigation
+import Loader from "./Loader";
 
 const DashboardDetails = () => {
   const dispatch = useAppDispatch();
   const { user, allUsers } = useAppSelector((state) => state.user);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchAllUsers = async () => {
       try {
+        setIsLoading(true);
         const { data } = await getAllUsers();
         dispatch(setAllUsersInStore(data));
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchAllUsers();
@@ -24,6 +29,13 @@ const DashboardDetails = () => {
   }, []);
   const filteredUsers = allUsers.filter((u) => u.id !== user.id);
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader />
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col items-center py-8">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Admin Dashboard</h1>
