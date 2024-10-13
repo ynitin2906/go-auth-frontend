@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
+      {/* <head>
         <link
           href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css"
           rel="stylesheet"
@@ -24,7 +24,7 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.bubble.css"
           rel="stylesheet"
         />
-      </head>
+      </head> */}
       <body className="scrollable">
         <ReduxProvider>
           <AuthProvider>{children}</AuthProvider>
