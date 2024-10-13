@@ -12,18 +12,18 @@ const CreateNote = ({ onClose }: { onClose: () => void }) => {
   const { notes } = useAppSelector((state) => state.notes);
 
   const dispatch = useAppDispatch();
+  console.log(notes);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const newNote = { title, category, note };
-      const { data } = await createNote(newNote); // Call the API to create a note
-      dispatch(setNotesInStore([...notes, data])); // Dispatch the action to update the store
-      // Reset form fields
+      const { data } = await createNote(newNote);
+      dispatch(setNotesInStore([...(notes || []), data]));
       setTitle("");
       setCategory("");
       setNote("");
-      onClose(); // Close the form after submission
+      onClose();
     } catch (error) {
       console.error("Failed to create note:", error);
     }
