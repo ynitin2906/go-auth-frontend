@@ -18,14 +18,13 @@ const Createtask = ({ onClose }: { onClose: () => void }) => {
     e.preventDefault();
     try {
       const newTask = { title, category, task, status };
-      const { data } = await createTask(newTask); // Call the API to create a note
-      dispatch(setTasksInStore([...tasks, data])); // Dispatch the action to update the store
-      // Reset form fields
+      const { data } = await createTask(newTask);
+      dispatch(setTasksInStore([...(tasks || []), data]));
       setTitle("");
       setCategory("");
       setTask("");
       setStatus("pending");
-      onClose(); // Close the form after submission
+      onClose();
     } catch (error) {
       console.error("Failed to create task:", error);
     }
