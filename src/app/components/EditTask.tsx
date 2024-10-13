@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { updateTask } from "../services/tasksService";
 import { setTasksInStore } from "../slices/tasksSlice";
+import RichText from "./RichText";
 
 interface EditTaskProps {
   taskId: string;
@@ -88,7 +89,7 @@ const EditTask = ({ taskId, onClose }: EditTaskProps) => {
         />
       </div>
       <div className="mb-4">
-        <label
+        {/* <label
           htmlFor="note"
           className="block mb-1 text-sm font-medium text-gray-700"
         >
@@ -102,6 +103,11 @@ const EditTask = ({ taskId, onClose }: EditTaskProps) => {
           required
           style={{ overflow: "hidden", height: "auto" }}
           rows={3}
+        /> */}
+        <RichText
+          label="Task"
+          value={task}
+          onChangeFun={(value) => setTask(value)}
         />
       </div>
       <div className="mb-4">

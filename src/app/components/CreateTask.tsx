@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { createTask } from "../services/tasksService";
 import { setTasksInStore } from "../slices/tasksSlice";
+import RichText from "./RichText";
 
 const Createtask = ({ onClose }: { onClose: () => void }) => {
   const [title, setTitle] = useState("");
@@ -66,7 +67,7 @@ const Createtask = ({ onClose }: { onClose: () => void }) => {
         />
       </div>
       <div className="mb-4">
-        <label
+        {/* <label
           htmlFor="task"
           className="block mb-1 text-sm font-medium text-gray-700"
         >
@@ -80,6 +81,11 @@ const Createtask = ({ onClose }: { onClose: () => void }) => {
           required
           style={{ overflow: "hidden", height: "auto" }}
           rows={3}
+        /> */}
+        <RichText
+          label="Task"
+          value={task}
+          onChangeFun={(value) => setTask(value)}
         />
       </div>
       <div className="mb-4">

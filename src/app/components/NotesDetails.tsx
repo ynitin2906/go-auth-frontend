@@ -13,7 +13,7 @@ import { setNotesInStore } from "../slices/notesSlice";
 import CreateNote from "./CreateNote";
 import PopupModal from "./PopupModal";
 import EditNote from "./EditNote";
-import { MdDelete, MdEdit } from "react-icons/md";
+import { MdAdd, MdDelete, MdEdit } from "react-icons/md";
 import Loader from "./Loader";
 
 interface NoteDetailsProps {
@@ -75,11 +75,9 @@ const NotesDetails = ({ userId }: NoteDetailsProps) => {
     <div className="flex flex-col items-center py-8">
       <div
         onClick={toggleCreateNote}
-        className="flex items-center cursor-pointer bg-green-500 text-white rounded-lg p-4 shadow-lg hover:shadow-xl transition-shadow duration-300 mb-4"
+        className="fixed bottom-8 right-8 w-16 h-16 bg-green-500 text-white rounded-full shadow-lg cursor-pointer hover:bg-green-600 hover:shadow-2xl transition-all flex items-center justify-center"
       >
-        <span className="font-semibold">
-          {isCreating ? "Cancel" : "Create Note"}
-        </span>
+        <MdAdd size={32} />
       </div>
 
       <PopupModal

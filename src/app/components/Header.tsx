@@ -23,7 +23,7 @@ const Header = () => {
     <header className="bg-white border-b border-gray-200 py-4 h-16 sticky top-0 z-50 shadow-md">
       <div className="container mx-auto flex justify-between items-center px-4 h-full">
         <Link href="/" className="text-2xl font-semibold text-gray-800">
-          TaskSphere
+          TasksPhile
         </Link>
 
         <nav className="hidden md:flex items-center space-x-6">
