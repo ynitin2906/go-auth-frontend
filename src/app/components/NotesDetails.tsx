@@ -108,16 +108,19 @@ const NotesDetails = ({ userId }: NoteDetailsProps) => {
               <h2 className="font-semibold text-lg">{note.title}</h2>
               <p className="text-gray-600 italic">{note.category}</p>
               <p className="text-gray-700">{note.note}</p>
-              <MdEdit
-                onClick={() => toggleEditNote(note.id)}
-                className="absolute top-2 right-9 text-blue-500 opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity duration-300"
-                size={24}
-              />
-              <MdDelete
-                onClick={() => handleDeleteNote(note.id)}
-                className="absolute top-2 right-2 text-red-500 opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity duration-300"
-                size={24}
-              />
+
+              <div className="bg-yellow-200 absolute top-2 right-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <MdEdit
+                  onClick={() => toggleEditNote(note.id)}
+                  className="text-blue-500 cursor-pointer"
+                  size={20}
+                />
+                <MdDelete
+                  onClick={() => handleDeleteNote(note.id)}
+                  className="text-red-500 cursor-pointer"
+                  size={20}
+                />
+              </div>
             </div>
           ))
         ) : (
