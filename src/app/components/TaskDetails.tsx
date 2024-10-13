@@ -146,7 +146,7 @@ const TaskDetails = ({ userId }: TaskDetailsProps) => {
                 {returnCurrentStatus(task).toUpperCase()}
               </div>
 
-              <div className="absolute top-2 right-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="bg-white absolute top-2 right-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <MdEdit
                   onClick={() => toggleEditTask(task.id)}
                   className="text-blue-500 cursor-pointer"

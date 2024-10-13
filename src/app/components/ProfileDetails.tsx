@@ -26,7 +26,7 @@ import {
 import PopupModal from "./PopupModal";
 import EditProfile from "./EditProfile";
 import Loader from "./Loader";
-import { Task } from "../types/tasks";
+import { countTasksStatus } from "../utils/tasksCount";
 
 interface ProfileDetailsProps {
   userId?: string;
@@ -76,36 +76,17 @@ const ProfileDetails = ({ userId }: ProfileDetailsProps) => {
   useEffect(() => {
     setRenderUser(user);
   }, [user]);
-
-  const countTasksStatus = (): {
-    pending: number;
-    progress: number;
-    done: number;
-  } => {
-    const statusCounts = {
-      pending: 0,
-      progress: 0,
-      done: 0,
-    };
-
-    if (!renderUser || !renderUser.tasks) {
-      return statusCounts;
+  const getStatusStyles = (status: string) => {
+    switch (status) {
+      case "progress":
+        return "text-black-600";
+      case "done":
+        return "text-black-600";
+      default:
+        return "text-black-600";
     }
-    renderUser.tasks.forEach((task: Task) => {
-      if (task.status_history && task.status_history.length > 0) {
-        const lastStatus = task.status_history[task.status_history.length - 1];
-
-        if (lastStatus.status === "pending") {
-          statusCounts.pending += 1;
-        } else if (lastStatus.status === "progress") {
-          statusCounts.progress += 1;
-        } else if (lastStatus.status === "done") {
-          statusCounts.done += 1;
-        }
-      }
-    });
-    return statusCounts;
   };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -288,16 +269,22 @@ const ProfileDetails = ({ userId }: ProfileDetailsProps) => {
               </div>
               <h3 className="text-xl font-semibold text-gray-700">Tasks</h3>
               <p className="text-gray-600 mt-2">
-                Pending:{" "}
-                <span className="font-bold">{countTasksStatus().pending}</span>
+                Pending:
+                <span className={`font-bold  ${getStatusStyles("pending")}`}>
+                  {countTasksStatus(renderUser).pending}
+                </span>
               </p>
               <p className="text-gray-600">
-                Progress:{" "}
-                <span className="font-bold">{countTasksStatus().progress}</span>
+                Progress:
+                <span className={`font-bold  ${getStatusStyles("progress")}`}>
+                  {countTasksStatus(renderUser).progress}
+                </span>
               </p>
               <p className="text-gray-600">
-                Done:{" "}
-                <span className="font-bold">{countTasksStatus().done}</span>
+                Done:
+                <span className={`font-bold  ${getStatusStyles("done")}`}>
+                  {countTasksStatus(renderUser).done}
+                </span>
               </p>
             </div>
 
