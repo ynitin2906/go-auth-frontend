@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { createTask } from "../services/tasksService";
 import { setTasksInStore } from "../slices/tasksSlice";
 import RichText from "./RichText";
+// import RichText from "./RichText";
 
 const Createtask = ({ onClose }: { onClose: () => void }) => {
   const [title, setTitle] = useState("");

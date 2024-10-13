@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { updateTask } from "../services/tasksService";
 import { setTasksInStore } from "../slices/tasksSlice";
 import RichText from "./RichText";
+// import RichText from "./RichText";
 
 interface EditTaskProps {
   taskId: string;
